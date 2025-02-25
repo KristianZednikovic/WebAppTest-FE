@@ -47,7 +47,7 @@ function App() {
 
   return (
     <div className="App">
-      <h2>REGISTER</h2>
+      <h2>Register account</h2>
       <form onSubmit={handleRegisterSubmit}>
         <input
           type="email"
