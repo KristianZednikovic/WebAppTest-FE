@@ -1,38 +1,85 @@
+/* Base reset and dark background */
+body, html {
+  margin: 0;
+  padding: 0;
+  background: #0d0d0d;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #ffffff;
+  height: 100%;
+}
+
+/* Center the main app container */
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  min-height: 100vh;
 }
 
-.App-link {
-  color: #61dafb;
+/* Futuristic container styling */
+.container {
+  background: rgba(20, 20, 20, 0.8);
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  border-radius: 10px;
+  padding: 30px 40px;
+  margin: 20px;
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  width: 300px;
+  text-align: center;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Headings with neon glow */
+.container h2 {
+  margin-bottom: 20px;
+  color: #00ffff;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+}
+
+/* Form layout */
+.container form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Input styling */
+.container input {
+  margin: 10px 0;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 5px;
+  color: #ffffff;
+  font-size: 1em;
+  box-shadow: inset 0 0 8px rgba(0, 255, 255, 0.2);
+}
+
+/* Button styling with gradient and hover effect */
+.container button {
+  margin-top: 10px;
+  padding: 10px;
+  background: linear-gradient(45deg, #00ffff, #0080ff);
+  border: none;
+  border-radius: 5px;
+  color: #ffffff;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.container button:hover {
+  background: linear-gradient(45deg, #0080ff, #00ffff);
+}
+
+/* Response preformatted text styling */
+pre {
+  background: rgba(20, 20, 20, 0.9);
+  padding: 15px;
+  border-radius: 5px;
+  text-align: left;
+  overflow: auto;
+  max-width: 90%;
+  margin-top: 20px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
 }
