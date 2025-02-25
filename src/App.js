@@ -13,7 +13,7 @@ function App() {
   });
 
   const apiUrl =
-    "https://webapplicationtest-bffqhvhcccgefmey.westeurope-01.azurewebsites.net";
+    "https://webapplicationtest-bffqhvhcccgefmey.westeurope-01.azurewebsites.net/api";
 
   const handleRegisterChange = (e) => {
     setRegisterData({ ...registerData, [e.target.name]: e.target.value });
