@@ -8,7 +8,6 @@ body, html {
   height: 100%;
 }
 
-/* Center the main app container */
 .App {
   display: flex;
   flex-direction: column;
@@ -43,10 +42,35 @@ body, html {
   flex-direction: column;
 }
 
+/* Wrapping each input + icon */
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 15px 0;
+}
+
+/* Icon styling (left side) */
+.input-wrapper .icon {
+  position: absolute;
+  left: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+}
+
+/* The eye icon on the right side */
+.eye-icon {
+  right: 10px;
+  left: auto !important;
+  cursor: pointer;
+}
+
 /* Input styling */
-.container input {
-  margin: 10px 0;
-  padding: 10px;
+.input-wrapper input {
+  width: 100%;
+  padding: 10px 10px 10px 40px; /* left padding to make space for icon */
   background: rgba(255, 255, 255, 0.1);
   border: none;
   border-radius: 5px;
@@ -72,7 +96,7 @@ body, html {
   background: linear-gradient(45deg, #0080ff, #00ffff);
 }
 
-/* Response preformatted text styling */
+/* Response display */
 pre {
   background: rgba(20, 20, 20, 0.9);
   padding: 15px;
