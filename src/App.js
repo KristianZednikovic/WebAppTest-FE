@@ -12,7 +12,8 @@ function App() {
     password: "",
   });
 
-  const apiUrl = "http://localhost:2000/api";
+  const apiUrl =
+    "webapplicationtest-bffqhvhcccgefmey.westeurope-01.azurewebsites.net";
 
   const handleRegisterChange = (e) => {
     setRegisterData({ ...registerData, [e.target.name]: e.target.value });
