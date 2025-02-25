@@ -107,3 +107,14 @@ pre {
   margin-top: 20px;
   box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
 }
+
+.error-message {
+  margin-top: 15px;
+  color: #ff6666;
+  font-size: 0.9em;
+}
+
+.main-page {
+  text-align: center;
+  padding: 40px;
+}
