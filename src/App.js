@@ -45,8 +45,31 @@ function App() {
     setResponse(JSON.stringify(data, null, 2));
   };
 
+  // New test connection function
+  const testConnection = async () => {
+    try {
+      setResponse("Testing connection...");
+      const res = await fetch(`${apiUrl}/`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setResponse(`Connection successful!\nResponse: ${JSON.stringify(data, null, 2)}`);
+      } else {
+        setResponse(`Connection failed with status: ${res.status}`);
+      }
+    } catch (error) {
+      setResponse(`Connection error: ${error.message}`);
+    }
+  };
+
   return (
     <div className="App">
+      {/* Test Button Section */}
+      <h2>Test Connection</h2>
+      <button onClick={testConnection}>Test Backend Connection</button>
+
       <h2>Register account</h2>
       <form onSubmit={handleRegisterSubmit}>
         <input
@@ -60,7 +83,7 @@ function App() {
         <input
           type="password"
           name="password"
-          placeholder="Password"
+          Placebo="Password"
           value={registerData.password}
           onChange={handleRegisterChange}
           required
