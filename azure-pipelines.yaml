@@ -1,13 +1,27 @@
 trigger:
-- main 
+- main
 
 pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+# 1. Use the desired Node version (16.x, 18.x, or 19.x if supported)
+- task: NodeTool@0
+  inputs:
+    versionSpec: '18.x'
+  displayName: 'Use Node.js 18.x'
+
+# 2. Install dependencies and build
+- script: |
+    npm install
+    npm run build
+  displayName: 'Install dependencies and build React'
+
+# 3. Deploy to Azure Static Web Apps
 - task: AzureStaticWebApp@0
+  displayName: 'Deploy to Azure Static Web App'
   inputs:
     azureStaticWebAppsConnection: 'azure-static-web-app'
-    app_location: '/'        
-    output_location: 'build'           
+    app_location: '/'
+    output_location: 'build'
     azure_static_web_apps_api_token: ''
