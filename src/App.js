@@ -13,7 +13,7 @@ function App() {
   });
 
   const apiUrl =
-    "webapplicationtest-bffqhvhcccgefmey.westeurope-01.azurewebsites.net";
+    "webapplicationtest-bffqhvhcccgefmey.westeurope-01.azurewebsites.net/api";
 
   const handleRegisterChange = (e) => {
     setRegisterData({ ...registerData, [e.target.name]: e.target.value });
@@ -55,7 +55,9 @@ function App() {
       });
       if (res.ok) {
         const data = await res.json();
-        setResponse(`Connection successful!\nResponse: ${JSON.stringify(data, null, 2)}`);
+        setResponse(
+          `Connection successful!\nResponse: ${JSON.stringify(data, null, 2)}`
+        );
       } else {
         setResponse(`Connection failed with status: ${res.status}`);
       }
