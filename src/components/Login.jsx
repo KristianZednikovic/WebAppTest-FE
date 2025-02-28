@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
-import { useNavigate} from "react-router-dom";
+import React, { useEffect, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { PublicClientApplication } from "@azure/msal-browser";
 import msalConfig from "../controllers/azureLogin";
 
 function Login() {
   const navigate = useNavigate();
-  const msalInstance = new PublicClientApplication(msalConfig);
+  const msalInstance = useMemo(() => new PublicClientApplication(msalConfig), []);
 
   // Define the scopes you need (e.g., "User.Read" to read the user’s profile)
   const loginRequest = {
