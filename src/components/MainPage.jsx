@@ -24,7 +24,7 @@ function MainPage() {
         tokenResponse = await instance.acquireTokenPopup(tokenRequest);
       }
       const accessToken = tokenResponse.accessToken;
-
+      console.log("Access token: ", accessToken);
       // Call the protected API endpoint using the token
       const response = await fetch("https://webapplicationtest-bffqhvhcccgefmey.westeurope-01.azurewebsites.net/api/tenant-data", {
         headers: {
@@ -32,7 +32,7 @@ function MainPage() {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-
+      console.log(response.json());
       if (!response.ok) {
         throw new Error("Failed to fetch tenant data");
       }
