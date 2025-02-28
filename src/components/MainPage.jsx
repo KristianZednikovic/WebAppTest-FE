@@ -32,7 +32,7 @@ function MainPage() {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      console.log(response.json());
+      console.log(response);
       if (!response.ok) {
         throw new Error("Failed to fetch tenant data");
       }
