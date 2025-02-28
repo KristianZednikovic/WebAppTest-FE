@@ -9,14 +9,23 @@ function MainPage() {
   const fetchTenantData = async () => {
     setError(null);
     const tokenRequest = {
-      scopes: ["api://20428427-abf0-424b-83d7-f2fbb7ba1c83/readTenantData"], 
+      scopes: ["api://20428427-abf0-424b-83d7-f2fbb7ba1c83/readTenantData"],
       account: accounts[0],
     };
 
     try {
-      const tokenResponse = await instance.acquireTokenSilent(tokenRequest);
+      // First try to acquire the token silently
+      let tokenResponse;
+      try {
+        tokenResponse = await instance.acquireTokenSilent(tokenRequest);
+      } catch (silentError) {
+        console.warn("Silent token acquisition failed. Falling back to interactive method.", silentError);
+        // Fallback to interactive login to get consent
+        tokenResponse = await instance.acquireTokenPopup(tokenRequest);
+      }
       const accessToken = tokenResponse.accessToken;
 
+      // Call the protected API endpoint using the token
       const response = await fetch("http://webapplicationtest-bffqhvhcccgefmey.westeurope-01.azurewebsites.net/api/tenant-data", {
         headers: {
           "Content-Type": "application/json",
@@ -27,7 +36,6 @@ function MainPage() {
       if (!response.ok) {
         throw new Error("Failed to fetch tenant data");
       }
-
       const data = await response.json();
       setTenantData(data);
     } catch (err) {
