@@ -26,7 +26,7 @@ function MainPage() {
       const accessToken = tokenResponse.accessToken;
 
       // Call the protected API endpoint using the token
-      const response = await fetch("http://webapplicationtest-bffqhvhcccgefmey.westeurope-01.azurewebsites.net/api/tenant-data", {
+      const response = await fetch("https://webapplicationtest-bffqhvhcccgefmey.westeurope-01.azurewebsites.net/api/tenant-data", {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
