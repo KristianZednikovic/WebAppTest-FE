@@ -51,7 +51,7 @@ function MainPage() {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    fetchTenantData(searchTerm.trim());
+    fetchTenantData(searchTerm); //searchTerm.trim()
   };
 
   return (
