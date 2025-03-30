@@ -51,7 +51,7 @@ function MainPage() {
     }
   };
 
-  // Function to fetch tenant data filtered by a search term in the "data" field
+
   const searchTenantData = async (term) => {
     setError(null);
     const tokenRequest = {
@@ -96,15 +96,55 @@ function MainPage() {
   };
 
   // Handle search form submission
-  const handleSearchSubmit = (e) => {
+  const handleSearchSubmit = async (e) => {
     e.preventDefault();
-    if (searchTerm.trim()) {
-      searchTenantData(searchTerm.trim());
-    } else {
-      // If search term is empty, fetch all tenant data
-      fetchAllTenantData();
+    setError(null);
+  
+    const tokenRequest = {
+      scopes: ["api://20428427-abf0-424b-83d7-f2fbb7ba1c83/readTenantData"],
+      account: accounts[0],
+    };
+  
+    try {
+
+      let tokenResponse;
+      try {
+        tokenResponse = await instance.acquireTokenSilent(tokenRequest);
+      } catch (silentError) {
+        console.warn(
+          "Silent token acquisition failed. Falling back to interactive method.",
+          silentError
+        );
+        tokenResponse = await instance.acquireTokenPopup(tokenRequest);
+      }
+      const accessToken = tokenResponse.accessToken;
+      console.log("Access token: ", accessToken);
+  
+      // Build the API URL. If a search term is provided, append it as a query parameter.
+      let url = "https://webapplicationtest-bffqhvhcccgefmey.westeurope-01.azurewebsites.net/api/tenant-data";
+      if (searchTerm.trim()) {
+        url += `?search=${encodeURIComponent(searchTerm.trim())}`;
+      }
+  
+      // Fetch data from the backend using the access token
+      const response = await fetch(url, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to fetch tenant data");
+      }
+      const data = await response.json();
+      setTenantData(data);
+    } catch (err) {
+      console.error("Error fetching tenant data:", err);
+      setError(err.message);
     }
   };
+  
 
   return (
     <div className="App">
