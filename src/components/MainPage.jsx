@@ -7,136 +7,40 @@ function MainPage() {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Function to fetch all tenant data (for the logged in tenant)
-  const fetchAllTenantData = async () => {
-    setError(null);
+  const getAccessToken = async () => {
     const tokenRequest = {
       scopes: ["api://20428427-abf0-424b-83d7-f2fbb7ba1c83/readTenantData"],
       account: accounts[0],
     };
 
     try {
-      let tokenResponse;
-      try {
-        tokenResponse = await instance.acquireTokenSilent(tokenRequest);
-      } catch (silentError) {
-        console.warn(
-          "Silent token acquisition failed. Falling back to interactive method.",
-          silentError
-        );
-        tokenResponse = await instance.acquireTokenPopup(tokenRequest);
-      }
-      const accessToken = tokenResponse.accessToken;
-      console.log("Access token: ", accessToken);
-
-      // API call without a search parameter returns all data for the logged-in tenant
-      const response = await fetch(
-        "https://webapplicationtest-bffqhvhcccgefmey.westeurope-01.azurewebsites.net/api/tenant-data",
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch tenant data");
-      }
-      const data = await response.json();
-      setTenantData(data);
-    } catch (err) {
-      console.error("Error fetching tenant data:", err);
-      setError(err.message);
+      return await instance.acquireTokenSilent(tokenRequest);
+    } catch (silentError) {
+      console.warn("Silent token failed. Falling back to popup.");
+      return await instance.acquireTokenPopup(tokenRequest);
     }
   };
 
-
-  const searchTenantData = async (term) => {
+  const fetchTenantData = async (term = "") => {
     setError(null);
-    const tokenRequest = {
-      scopes: ["api://20428427-abf0-424b-83d7-f2fbb7ba1c83/readTenantData"],
-      account: accounts[0],
-    };
 
     try {
-      let tokenResponse;
-      try {
-        tokenResponse = await instance.acquireTokenSilent(tokenRequest);
-      } catch (silentError) {
-        console.warn(
-          "Silent token acquisition failed. Falling back to interactive method.",
-          silentError
-        );
-        tokenResponse = await instance.acquireTokenPopup(tokenRequest);
-      }
+      const tokenResponse = await getAccessToken();
       const accessToken = tokenResponse.accessToken;
-      console.log("Access token: ", accessToken);
 
-      // Append the search query parameter to filter by the "data" field
-      const response = await fetch(
-        `https://webapplicationtest-bffqhvhcccgefmey.westeurope-01.azurewebsites.net/api/tenant-data?search=${encodeURIComponent(term)}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
+      const url = term
+        ? `https://webapplicationtest-bffqhvhcccgefmey.westeurope-01.azurewebsites.net/api/tenant-data?search=${encodeURIComponent(term)}`
+        : "https://webapplicationtest-bffqhvhcccgefmey.westeurope-01.azurewebsites.net/api/tenant-data";
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch tenant data for search");
-      }
-      const data = await response.json();
-      setTenantData(data);
-    } catch (err) {
-      console.error("Error searching tenant data:", err);
-      setError(err.message);
-    }
-  };
-
-  // Handle search form submission
-  const handleSearchSubmit = async (e) => {
-    e.preventDefault();
-    setError(null);
-  
-    const tokenRequest = {
-      scopes: ["api://20428427-abf0-424b-83d7-f2fbb7ba1c83/readTenantData"],
-      account: accounts[0],
-    };
-  
-    try {
-
-      let tokenResponse;
-      try {
-        tokenResponse = await instance.acquireTokenSilent(tokenRequest);
-      } catch (silentError) {
-        console.warn(
-          "Silent token acquisition failed. Falling back to interactive method.",
-          silentError
-        );
-        tokenResponse = await instance.acquireTokenPopup(tokenRequest);
-      }
-      const accessToken = tokenResponse.accessToken;
-      console.log("Access token: ", accessToken);
-  
-      // Build the API URL. If a search term is provided, append it as a query parameter.
-      let url = "https://webapplicationtest-bffqhvhcccgefmey.westeurope-01.azurewebsites.net/api/tenant-data";
-      if (searchTerm.trim()) {
-        url += `?search=${encodeURIComponent(searchTerm.trim())}`;
-      }
-  
-      // Fetch data from the backend using the access token
       const response = await fetch(url, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
         },
       });
-  
-      if (!response.ok) {
-        throw new Error("Failed to fetch tenant data");
-      }
+
+      if (!response.ok) throw new Error("Failed to fetch tenant data");
+
       const data = await response.json();
       setTenantData(data);
     } catch (err) {
@@ -144,7 +48,11 @@ function MainPage() {
       setError(err.message);
     }
   };
-  
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    fetchTenantData(searchTerm.trim());
+  };
 
   return (
     <div className="App">
