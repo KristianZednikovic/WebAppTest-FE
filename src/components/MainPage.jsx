@@ -59,7 +59,7 @@ function MainPage() {
       <div className="main-page">
         <h1>Welcome to the Main Page!</h1>
         <p>This is the main area of the application.</p>
-        <form onSubmit={handleSearchSubmit}>
+        <form onSubmit={handleSearchSubmit} className="search-bar">
           <input
             type="text"
             placeholder="Search within tenant data..."

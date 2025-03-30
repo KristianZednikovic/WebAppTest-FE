@@ -118,3 +118,51 @@ pre {
   text-align: center;
   padding: 40px;
 }
+
+/* Search bar container */
+.search-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* Search input glow styling */
+.search-bar input[type="text"] {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  background: rgba(0, 255, 255, 0.1);
+  color: #fff;
+  font-size: 1em;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.3) inset;
+  transition: all 0.3s ease;
+}
+
+.search-bar input[type="text"]::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.search-bar input[type="text"]:focus {
+  outline: none;
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.6) inset;
+}
+
+/* Search button neon style */
+.search-bar button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background: linear-gradient(45deg, #00ffff, #0080ff);
+  color: white;
+  font-size: 1em;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+  transition: background 0.3s ease, transform 0.2s;
+}
+
+.search-bar button:hover {
+  background: linear-gradient(45deg, #0080ff, #00ffff);
+  transform: translateY(-1px);
+}
